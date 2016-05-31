@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="agentsDesk">
+
+<head>
+    <title>AgentsDesk</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/0.8.3/ng-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.0.0/ng-infinite-scroll.min.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/esvit/ng-table/master/dist/ng-table.min.css">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <script src="js/app.js" type="text/javascript"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body style="padding: 50px">
+    <div ng-controller="mainCtrl">
+        <form role="form" class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        Search By Email
+                    </div>
+                    <input type="text" ng-model="searchParam" class="form-control">
+                </div>
+            </div>
+            <button class="btn btn-primary" ng-click="runFilter()" type="submit">
+                Search
+            </button>
+            <button class="btn btn-primary" ng-click="clearFilter()" type="submit">
+                Clear
+            </button>
+        </form>
+
+        <table infinite-scroll="getMoreData()" ng-table="tableParams" show-filter="true" class="table table-striped">
+            <tr ng-repeat="user in data">
+                <td data-title="'Id'" sortable="'id'">
+                    {{user.id}}
+                </td>
+                <td data-title="'Profile pictured'">
+                    <img height="50px" ng-src="{{user.image}}">
+                </td>
+                <td data-title="'Name'" filter="{ 'name': 'text' }">
+                    {{user.name}}
+                </td>
+                <td data-title="'Email'">
+                    {{user.emails[0].email}}
+                </td>
+                <td data-title="'Created at'" sortable="'email'">
+                    {{user.created_at | date:'medium'}}
+                </td>
+                <td data-title="'Updated at'" sortable="'country'">
+                    {{user.updated_at | date:'medium'}}
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>
