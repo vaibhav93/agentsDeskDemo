@@ -1,4 +1,4 @@
-angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
+var app = angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
     .controller('mainCtrl', function ($scope, $filter, ngTableParams, $http) {
 
         $scope.clients = [];
