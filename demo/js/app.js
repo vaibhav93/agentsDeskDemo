@@ -43,7 +43,7 @@ var app = angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
         
         var getData = function () {
             $http.get('js/clients.json').success(function (data) {
-                $scope.clients = data.clients;
+                $scope.clients = data.clients.splice(0,200);
                 console.log(data.clients.length);
                 $scope.tableParams.reload();
             });
