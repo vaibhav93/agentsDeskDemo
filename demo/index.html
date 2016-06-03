@@ -37,7 +37,7 @@
             </button>
         </form>
 
-        <table infinite show-filter="true" class="table table-striped">
+        <table infinite get-data="getMoreData(value)" page-size="page_size" purge-data="purgeData(value)" show-filter="true" class="table table-striped">
             <tr ng-repeat="user in clients">
                 <td data-title="'Id'" sortable="'id'">
                     {{user.id}}

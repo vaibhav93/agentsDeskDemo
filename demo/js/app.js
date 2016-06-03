@@ -1,6 +1,6 @@
 var app = angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
     .controller('mainCtrl', function ($scope, $filter, ngTableParams, $http) {
-
+        $scope.page_size = 10;
         $scope.clients = [];
         $scope.data = [];
         $scope.tableParams = new ngTableParams({
@@ -17,7 +17,7 @@ var app = angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
                 $defer.resolve($scope.data);
             }
         });
-
+        var firstIndex,lastIndex;
         function filterByEmail(value) {
 
             if (value.emails && value.emails[0].email && value.emails[0].email.indexOf($scope.searchParam) > -1) {
@@ -34,18 +34,38 @@ var app = angular.module('agentsDesk', ['ngTable', 'infinite-scroll'])
         }
         $scope.clearFilter = function () {
             $scope.searchParam = '';
-            getData();
         }
 
-        $scope.getMoreData = function () {
-            $scope.data = $scope.clients.slice(0, $scope.data.length + 20);
+        $scope.getMoreData = function (direction) {
+            console.log(direction);
+            console.log('Getting Data');
+            if (direction){ //Going down. add data below
+                $scope.clients.push.apply($scope.clients, $scope.data.slice(lastIndex+1, lastIndex + $scope.page_size*3+1));
+                lastIndex = lastIndex + $scope.page_size*3;
+            }
+            else{  //scroll up
+//                $scope.clients.push.apply($scope.clients, $scope.data.slice($scope.clients.length, $scope.page_size));
+            }
+
         }
-        
+        $scope.purgeData = function (direction) {
+            console.log('Purging Data');
+            if (!direction){ //going down. Delete rows on top
+                console.log("Length before purging: "+$scope.clients.length);
+                $scope.clients.splice(lastIndex-$scope.page_size+1, $scope.page_size);
+                lastIndex = lastIndex - $scope.page_size;
+                console.log("Length after purging: "+$scope.clients.length);
+            }
+//                $scope.clients.splice(0,$scope.page_size);
+        }
+
         var getData = function () {
             $http.get('js/clients.json').success(function (data) {
-                $scope.clients = data.clients.splice(0,200);
-                console.log(data.clients.length);
-                $scope.tableParams.reload();
+                $scope.data = data.clients;
+                
+                $scope.clients = data.clients.splice(0, 100);
+                firstIndex = 0;
+                lastIndex = $scope.clients.length - 1 ;
             });
         }
         getData();
