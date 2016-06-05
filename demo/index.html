@@ -8,8 +8,9 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/0.8.3/ng-table.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.0.0/ng-infinite-scroll.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/0.8.3/ng-table.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.0.0/ng-infinite-scroll.min.js"></script>-->
+    <script src="js/lib/angular-loading-overlay.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/esvit/ng-table/master/dist/ng-table.min.css">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
@@ -18,8 +19,11 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body style="padding: 50px">
-    <div ng-controller="mainCtrl">
+<body ng-controller="mainCtrl" style="padding: 50px" class="bs-loading-container"
+   bs-loading-overlay
+     bs-loading-overlay-reference-id="first"
+     bs-loading-overlay-template-url="views/loading-template.html">
+    <div>
         <form role="form" class="form-inline">
             <div class="form-group">
                 <div class="input-group">
@@ -37,8 +41,8 @@
             </button>
         </form>
 
-        <table infinite get-data="getMoreData(value)" page-size="page_size" purge-data="purgeData(value)" show-filter="true" class="table table-striped">
-            <tr ng-repeat="user in clients">
+        <table infinite get-data="getMoreData(value)" page-size="page_size" first-index="firstIndex" purge-data="purgeData(value,rows)" show-filter="true" class="table table-striped">
+            <tr ng-repeat="user in clients track by user.id">
                 <td data-title="'Id'" sortable="'id'">
                     {{user.id}}
                 </td>

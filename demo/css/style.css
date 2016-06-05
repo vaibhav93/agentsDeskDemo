@@ -1,3 +1,11 @@
-.ng-table-pager{
+.ng-table-pager {
     display: none !important;
+}
+
+.stop-scrolling {
+    overflow: hidden;
+    width: 100%;
+}
+body { 
+    overflow-x: hidden;
 }
